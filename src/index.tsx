@@ -1,14 +1,35 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import './index.css';
-import App from './App';
-import reportWebVitals from './reportWebVitals';
+import React from "react";
+import ReactDOM from "react-dom";
+import App from "./components/App";
+import reportWebVitals from "./reportWebVitals";
+
+import { BaseProvider, LightTheme } from "baseui";
+import { HashRouter, Route, Routes } from "react-router-dom";
+import { Client as Styletron } from "styletron-engine-atomic";
+import { Provider as StyletronProvider } from "styletron-react";
+import GamesRoute from "./components/GamesRoute";
+import Game from "./components/Game";
+
+const engine = new Styletron();
 
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <StyletronProvider value={engine}>
+      <BaseProvider theme={LightTheme}>
+        <HashRouter>
+          <Routes>
+            <Route path="/" element={<App />}>
+              <Route path="games" element={<GamesRoute />}>
+                <Route path="" element={<></>} />
+                <Route path=":gameId" element={<Game />} />
+              </Route>
+            </Route>
+          </Routes>
+        </HashRouter>
+      </BaseProvider>
+    </StyletronProvider>
   </React.StrictMode>,
-  document.getElementById('root')
+  document.getElementById("root")
 );
 
 // If you want to start measuring performance in your app, pass a function
