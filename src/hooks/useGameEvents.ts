@@ -1,4 +1,5 @@
 import { sortBy } from "lodash";
+import { GameEvent } from "../types";
 import useWatchDatabase from "./useWatchDatabase";
 
 /**

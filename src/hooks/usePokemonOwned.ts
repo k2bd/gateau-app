@@ -12,15 +12,14 @@ const usePokemonOwned = ({
 }) => {
   const { events } = useGameEvents({ gameId });
 
-  const caught =
-    events.find(
-      (e) =>
-        e.playerId === playerId &&
-        e.meaning === toOwned(pokemonName) &&
-        e.value === true
-    ) !== undefined;
+  const caught = events.find(
+    (e) =>
+      e.player_id === playerId &&
+      e.meaning === toOwned(pokemonName) &&
+      e.value === "True"
+  );
 
-  return caught;
+  return !!caught;
 };
 
 export default usePokemonOwned;

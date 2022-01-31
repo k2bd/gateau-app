@@ -12,15 +12,14 @@ const usePokemonSeen = ({
 }) => {
   const { events } = useGameEvents({ gameId });
 
-  const seen =
-    events.find(
-      (e) =>
-        e.playerId === playerId &&
-        e.meaning === toSeen(pokemonName) &&
-        e.value === true
-    ) !== undefined;
+  const seen = events.find(
+    (e) =>
+      e.player_id === playerId &&
+      e.meaning === toSeen(pokemonName) &&
+      e.value === "True"
+  );
 
-  return seen;
+  return !!seen;
 };
 
 export default usePokemonSeen;

@@ -1,22 +1,22 @@
-enum Cartridge {
+export enum Cartridge {
   POKEMON_RED = "Pokemon Red",
   POKEMON_BLUE = "Pokemon Blue",
 }
 
-interface Player {
+export interface Player {
   uid: string;
   name: string;
   cartridge: Cartridge;
 }
 
-interface GameEvent {
+export interface GameEvent {
   meaning: string;
   value: string | number | boolean;
-  playerId: string;
+  player_id: string;
   timestamp: string;
 }
 
-interface PokeSprites {
+export interface PokeSprites {
   front_default: string;
   front_shiny: string;
   front_female: string;
@@ -27,7 +27,7 @@ interface PokeSprites {
   back_shiny_female: string;
 }
 
-interface PokemonInfo {
+export interface PokemonInfo {
   id: number;
   name: string;
   sprites: PokeSprites;

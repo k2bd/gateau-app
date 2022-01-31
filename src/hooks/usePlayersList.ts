@@ -1,3 +1,4 @@
+import { Player } from "../types";
 import useWatchDatabase from "./useWatchDatabase";
 
 /**
