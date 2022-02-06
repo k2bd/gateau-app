@@ -1,10 +1,10 @@
-import { useParams } from "react-router-dom";
 import { GEN_1_POKEMON, toOwned, toSeen } from "../gameData/pokemon";
 import useAddSubscriptions from "../hooks/useAddSubscriptions";
 import useSetPlayer from "../hooks/useSetPlayer";
+import { Cartridge } from "../types";
 import Pokedex from "./Pokedex";
 import { useEffect } from "react";
-import { Cartridge } from "../types";
+import { useParams } from "react-router-dom";
 
 const Game = () => {
   const { gameId } = useParams();

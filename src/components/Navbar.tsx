@@ -1,15 +1,15 @@
-import { AppNavBar, NavItemT } from "baseui/app-nav-bar";
-import { signOut } from "firebase/auth";
-import { useState } from "react";
 import { auth } from "../firebaseApp";
 import useUser from "../hooks/useUser";
 import LoginPopup from "./LoginPopup";
+import { AppNavBar, NavItemT } from "baseui/app-nav-bar";
+import { signOut } from "firebase/auth";
+import { useState } from "react";
 
 const Navbar = () => {
   const { user } = useUser();
   const [loginOpen, setLoginOpen] = useState(false);
 
-  const loginItems: NavItemT[] = [{ label: "Login" }];
+  const loginItems: NavItemT[] = [{ label: "Log In" }];
 
   const logOut = () => signOut(auth);
 

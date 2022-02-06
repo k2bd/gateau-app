@@ -1,6 +1,6 @@
-import useAxios from "axios-hooks";
 import { GATEAU_API_URL } from "../constants";
 import { Player } from "../types";
+import useAxios from "axios-hooks";
 
 /**
  * Set player info within a game

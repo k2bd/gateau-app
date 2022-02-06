@@ -1,12 +1,6 @@
-import {
-  Modal,
-  ModalHeader,
-  ModalBody,
-  ModalFooter,
-  ModalButton,
-} from "baseui/modal";
-import { useStyletron } from "styletron-react";
 import GoogleLogin from "./GoogleLogin";
+import { Modal, ModalHeader, ModalBody } from "baseui/modal";
+import { useStyletron } from "styletron-react";
 
 const LoginPopup = ({
   isOpen,
@@ -27,7 +21,7 @@ const LoginPopup = ({
             display: "flex",
           })}
         >
-          <GoogleLogin />
+          <GoogleLogin onClose={onClose} />
         </div>
       </ModalBody>
     </Modal>

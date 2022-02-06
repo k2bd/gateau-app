@@ -1,10 +1,10 @@
-import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
-import { Button } from "baseui/button";
 import { auth } from "../../firebaseApp";
+import { Button } from "baseui/button";
+import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 
 const googleProvider = new GoogleAuthProvider();
 
-const GoogleLogin = () => {
+const GoogleLogin = ({ onClose }: { onClose: () => void }) => {
   const signInWithGoogle = () => {
     signInWithPopup(auth, googleProvider)
       .then((res) => {
@@ -13,6 +13,7 @@ const GoogleLogin = () => {
       .catch((error) => {
         console.log(error.message);
       });
+    onClose();
   };
 
   return (

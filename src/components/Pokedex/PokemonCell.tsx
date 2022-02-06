@@ -1,7 +1,7 @@
-import { useStyletron } from "baseui";
 import usePokemonInfo from "../../hooks/usePokemonInfo";
 import usePokemonOwned from "../../hooks/usePokemonOwned";
 import usePokemonSeen from "../../hooks/usePokemonSeen";
+import { useStyletron } from "baseui";
 
 const PokemonCell = ({
   name,
