@@ -1,0 +1,32 @@
+import { AppNavBar, NavItemT } from "baseui/app-nav-bar";
+import { signOut } from "firebase/auth";
+import { useState } from "react";
+import { auth } from "../firebaseApp";
+import useUser from "../hooks/useUser";
+import LoginPopup from "./LoginPopup";
+
+const Navbar = () => {
+  const { user } = useUser();
+  const [loginOpen, setLoginOpen] = useState(false);
+
+  const loginItems: NavItemT[] = [{ label: "Login" }];
+
+  const logOut = () => signOut(auth);
+
+  const logoutItems: NavItemT[] = [{ label: "Log Out" }];
+
+  return (
+    <>
+      <LoginPopup isOpen={loginOpen} onClose={() => setLoginOpen(false)} />
+      <AppNavBar
+        username={user?.displayName ?? user?.email ?? ""}
+        usernameSubtitle={user?.email ?? "Not Logged In"}
+        userImgUrl={user?.photoURL ?? undefined}
+        userItems={user ? logoutItems : loginItems}
+        onUserItemSelect={user ? logOut : () => setLoginOpen(true)}
+      />
+    </>
+  );
+};
+
+export default Navbar;
