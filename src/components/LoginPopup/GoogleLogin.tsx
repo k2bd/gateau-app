@@ -17,7 +17,7 @@ const GoogleLogin = ({ onClose }: { onClose: () => void }) => {
   };
 
   return (
-    <Button onClick={signInWithGoogle} kind="minimal" size="mini">
+    <Button onClick={signInWithGoogle} kind="tertiary" size="mini">
       <img
         src="https://developers.google.com/identity/images/btn_google_signin_light_normal_web.png"
         alt="google login"

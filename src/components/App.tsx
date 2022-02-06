@@ -9,7 +9,7 @@ const App = () => {
   return (
     <>
       <Navbar />
-      <UserInfoModal isOpen={!!needsUpdate} onClose={() => {}} />
+      <UserInfoModal isOpen={!!needsUpdate} onClose={() => null} />
       <Outlet />
     </>
   );
