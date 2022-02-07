@@ -1,7 +1,6 @@
+import firebaseApp from "../firebaseApp";
 import { ref, getDatabase } from "firebase/database";
 import { useObjectVal } from "react-firebase-hooks/database";
-
-import firebaseApp from "../firebaseApp";
 
 /**
  * Watch and get live data from a subpath of the realtime database

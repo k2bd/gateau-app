@@ -1,5 +1,5 @@
-import useAxios from "axios-hooks";
 import { PokemonInfo } from "../types";
+import useAxios from "axios-hooks";
 
 const usePokemonInfo = ({ num }: { num: number }) =>
   useAxios<PokemonInfo>({

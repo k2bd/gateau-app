@@ -1,14 +1,14 @@
+import App from "./components/App";
+import Game from "./components/Game";
+import GameSelect from "./components/GameSelect";
+import GamesRoute from "./components/GamesRoute";
+import reportWebVitals from "./reportWebVitals";
+import { BaseProvider, LightTheme } from "baseui";
 import React from "react";
 import ReactDOM from "react-dom";
-import App from "./components/App";
-import reportWebVitals from "./reportWebVitals";
-
-import { BaseProvider, LightTheme } from "baseui";
 import { HashRouter, Route, Routes } from "react-router-dom";
 import { Client as Styletron } from "styletron-engine-atomic";
 import { Provider as StyletronProvider } from "styletron-react";
-import GamesRoute from "./components/GamesRoute";
-import Game from "./components/Game";
 
 const engine = new Styletron();
 
@@ -19,6 +19,7 @@ ReactDOM.render(
         <HashRouter>
           <Routes>
             <Route path="/" element={<App />}>
+              <Route path="" element={<GameSelect />} />
               <Route path="games" element={<GamesRoute />}>
                 <Route path="" element={<></>} />
                 <Route path=":gameId" element={<Game />} />

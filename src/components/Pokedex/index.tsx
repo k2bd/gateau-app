@@ -1,7 +1,7 @@
-import { useStyletron } from "baseui";
-import { chunk } from "lodash";
 import { GEN_1_POKEMON } from "../../gameData/pokemon";
 import PokemonCell from "./PokemonCell";
+import { useStyletron } from "baseui";
+import { chunk } from "lodash";
 
 const Pokedex = ({ gameId }: { gameId: string }) => {
   const [css] = useStyletron();

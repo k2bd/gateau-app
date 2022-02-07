@@ -1,5 +1,5 @@
-import useAxios from "axios-hooks";
 import { GATEAU_API_URL } from "../constants";
+import useAxios from "axios-hooks";
 
 /**
  * Add new subscriptions to a game

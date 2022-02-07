@@ -1,6 +1,6 @@
-import { sortBy } from "lodash";
 import { GameEvent } from "../types";
 import useWatchDatabase from "./useWatchDatabase";
+import { sortBy } from "lodash";
 
 /**
  * Get the live state of game events that have happened
