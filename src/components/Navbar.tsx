@@ -20,7 +20,7 @@ const Navbar = () => {
       <LoginPopup isOpen={loginOpen} onClose={() => setLoginOpen(false)} />
       <AppNavBar
         username={user?.displayName ?? user?.email ?? ""}
-        usernameSubtitle={user?.email ?? "Not Logged In"}
+        usernameSubtitle={user ? undefined : "Not Logged In"}
         userImgUrl={user?.photoURL ?? undefined}
         userItems={user ? logoutItems : loginItems}
         onUserItemSelect={user ? logOut : () => setLoginOpen(true)}
