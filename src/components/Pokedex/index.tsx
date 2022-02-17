@@ -6,10 +6,7 @@ import { chunk } from "lodash";
 const Pokedex = ({ gameId }: { gameId: string }) => {
   const [css] = useStyletron();
 
-  const pokemon = GEN_1_POKEMON.map((name, index) => ({
-    name,
-    num: index + 1,
-  }));
+  const pokemon = GEN_1_POKEMON;
 
   const pokemonGroups = chunk(pokemon, 20);
 
@@ -22,8 +19,8 @@ const Pokedex = ({ gameId }: { gameId: string }) => {
     >
       {pokemonGroups.map((group) => (
         <div className={css({ flexDirection: "row" })}>
-          {group.map(({ name, num }) => (
-            <PokemonCell num={num} name={name} gameId={gameId} />
+          {group.map(({ name, nationalDex }) => (
+            <PokemonCell num={nationalDex} name={name} gameId={gameId} />
           ))}
         </div>
       ))}

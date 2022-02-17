@@ -12,8 +12,8 @@ const Game = () => {
   const { addSubscriptions } = useAddSubscriptions({ gameId: gameId ?? "" });
   const { setPlayer } = useSetPlayer({ gameId: gameId ?? "" });
 
-  const gen1Seen = GEN_1_POKEMON.map((pokemon) => toSeen(pokemon));
-  const gen1Owned = GEN_1_POKEMON.map((pokemon) => toOwned(pokemon));
+  const gen1Seen = GEN_1_POKEMON.map((pokemon) => toSeen(pokemon.name));
+  const gen1Owned = GEN_1_POKEMON.map((pokemon) => toOwned(pokemon.name));
 
   const setupGame = () => {
     addSubscriptions(gen1Seen.concat(gen1Owned));

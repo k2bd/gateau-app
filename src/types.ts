@@ -5,8 +5,8 @@ export enum Cartridge {
 
 export interface Player {
   uid: string;
-  name: string;
   cartridge: Cartridge;
+  color: string;
 }
 
 export interface GameEvent {
