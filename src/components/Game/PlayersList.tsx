@@ -38,8 +38,8 @@ const PlayersList = ({ gameId }: { gameId: string }) => {
           <Button disabled={true}>Join</Button>
         </ModalFooter>
       </Modal>
-      {players.map(({ uid, name }) => (
-        <Tag closeable={uid === user?.uid}>{name}</Tag>
+      {players.map(({ uid, name }, index) => (
+        <Tag closeable={uid === user?.uid}>{name ?? `Player ${index}`}</Tag>
       ))}
       <Button onClick={action}>{verb}</Button>
     </>

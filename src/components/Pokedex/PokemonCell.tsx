@@ -30,7 +30,7 @@ const PokemonCell = ({
 
   return (
     <img
-      className={css({ width: "64px", height: "64px", background })}
+      className={css({ width: "48px", height: "48px", background })}
       src={data?.sprites.front_default}
       alt={name}
     />

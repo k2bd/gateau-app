@@ -7,6 +7,7 @@ import useAxios from "axios-hooks";
  */
 const useAddSubscriptions = ({ gameId }: { gameId: string }) => {
   const { user } = useUser();
+  console.log(user);
   const [result, post] = useAxios(
     {
       url: `/game/${gameId}/subscriptions`,
@@ -20,6 +21,9 @@ const useAddSubscriptions = ({ gameId }: { gameId: string }) => {
     result,
     addSubscriptions: async (subscriptions: string[]) => {
       const idToken = await user?.getIdToken();
+      console.log("AAA");
+      console.log(idToken);
+      console.log("/AAA");
       return post({
         data: { subscriptions },
         headers: { Authorization: `Bearer ${idToken}` },

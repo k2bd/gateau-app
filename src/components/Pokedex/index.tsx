@@ -18,9 +18,17 @@ const Pokedex = ({ gameId }: { gameId: string }) => {
       })}
     >
       {pokemonGroups.map((group) => (
-        <div className={css({ flexDirection: "row" })}>
+        <div
+          className={css({ flexDirection: "row" })}
+          key={group[0].name ?? "emptyRow"}
+        >
           {group.map(({ name, nationalDex }) => (
-            <PokemonCell num={nationalDex} name={name} gameId={gameId} />
+            <PokemonCell
+              num={nationalDex}
+              name={name}
+              gameId={gameId}
+              key={name}
+            />
           ))}
         </div>
       ))}

@@ -21,6 +21,7 @@ const Game = () => {
       uid: "tempPlayer123",
       name: "Kevin",
       cartridge: Cartridge.POKEMON_RED,
+      color: "0x123456",
     });
   };
 
