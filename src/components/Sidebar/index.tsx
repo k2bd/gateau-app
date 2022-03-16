@@ -6,7 +6,7 @@ import { Avatar } from "baseui/avatar";
 import { Button, SIZE } from "baseui/button";
 import { ButtonGroup } from "baseui/button-group";
 import { ChevronRight, ChevronLeft } from "baseui/icon";
-import { Dispatch, SetStateAction, useState } from "react";
+import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { FaHeart } from "react-icons/fa";
 import { MdLogout, MdInfo, MdHome } from "react-icons/md";
 import {
@@ -47,6 +47,10 @@ const Sidebar = ({
 }) => {
   const { user, signOut } = useUser();
   const [userInfoModalOpen, setUserInfoModalOpen] = useState(false);
+
+  useEffect(() => {
+    if (!user?.displayName || !user.photoURL) setUserInfoModalOpen(true);
+  }, [user]);
 
   const headerContent = (
     <HeaderContent>

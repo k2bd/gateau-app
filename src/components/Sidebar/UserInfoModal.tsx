@@ -97,7 +97,11 @@ const UserInfoModal = ({
   );
 
   return (
-    <Modal isOpen={isOpen} onClose={onClose}>
+    <Modal
+      isOpen={isOpen}
+      onClose={onClose}
+      closeable={!!user?.displayName && !!user.photoURL}
+    >
       <ModalHeader>Profile Info</ModalHeader>
       <ModalBody>
         <FormControl
@@ -119,7 +123,7 @@ const UserInfoModal = ({
       </ModalBody>
       <ModalFooter>
         <ModalButton
-          disabled={!user || !displayName}
+          disabled={!user || !displayName || !photoURL}
           isLoading={updating}
           onClick={update}
         >
