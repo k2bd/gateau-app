@@ -1,27 +1,71 @@
+import useJoinGame from "../../hooks/useJoinGame";
 import useLeaveGame from "../../hooks/useLeaveGame";
 import usePlayersList from "../../hooks/usePlayersList";
-import useSetPlayer from "../../hooks/useSetPlayer";
 import useUser from "../../hooks/useUser";
 import { Cartridge } from "../../types";
 import { Button } from "baseui/button";
+import { FormControl } from "baseui/form-control";
+import { Input } from "baseui/input";
 import { Modal, ModalBody, ModalFooter, ModalHeader } from "baseui/modal";
+import { Select } from "baseui/select";
 import { Tag } from "baseui/tag";
 import { useState } from "react";
+import { CirclePicker } from "react-color";
+
+const GATEAU_PLAYER_COLORS = [
+  "#f44336",
+  "#e91e63",
+  "#9c27b0",
+  "#673ab7",
+  "#3f51b5",
+  "#2196f3",
+  "#03a9f4",
+  "#00bcd4",
+  "#009688",
+  "#4caf50",
+  "#8bc34a",
+  "#cddc39",
+  "#ffeb3b",
+  "#ffc107",
+  "#ff9800",
+  "#ff5722",
+  "#795548",
+  "#607d8b",
+];
 
 const PlayersList = ({ gameId }: { gameId: string }) => {
   const { players } = usePlayersList({ gameId });
   const { user } = useUser();
   const { leaveGame } = useLeaveGame({ gameId });
-  const { setPlayer } = useSetPlayer({ gameId });
+  const { joinGame } = useJoinGame({ gameId });
   const [joinModalOpen, setJoinModalOpen] = useState(false);
 
-  const [cartridge, setCartridge] = useState<Cartridge | null>(null);
+  const [cartridge, setCartridge] = useState<Cartridge | undefined>(undefined);
+  const [color, setColor] = useState<string | undefined>(undefined);
+  const [displayName, setDisplayName] = useState<string>(
+    user?.displayName ?? ""
+  );
 
   const isJoined =
     user && players.map((player) => player.uid).includes(user.uid);
 
   const verb = isJoined ? "Leave" : "Join";
-  const action = isJoined ? () => setJoinModalOpen(true) : () => leaveGame();
+  const action = isJoined ? () => leaveGame() : () => setJoinModalOpen(true);
+
+  const canJoin =
+    user?.uid !== undefined &&
+    cartridge !== undefined &&
+    color !== undefined &&
+    displayName !== "";
+
+  const availableColors = GATEAU_PLAYER_COLORS.filter(
+    (color) => !players.map((player) => player.color).includes(color)
+  );
+
+  const cartOptions = Object.values(Cartridge).map((value) => ({
+    id: value,
+    label: value,
+  }));
 
   return (
     <>
@@ -33,13 +77,58 @@ const PlayersList = ({ gameId }: { gameId: string }) => {
         closeable
       >
         <ModalHeader>Join Game</ModalHeader>
-        <ModalBody></ModalBody>
+        <ModalBody>
+          <FormControl label="Display Name">
+            <Input
+              value={displayName}
+              onChange={(e) => setDisplayName(e.currentTarget.value)}
+            />
+          </FormControl>
+          <FormControl label="Cartridge">
+            <Select
+              options={cartOptions}
+              value={cartridge ? [{ id: cartridge }] : undefined}
+              onChange={(params) =>
+                setCartridge(
+                  (params.option?.id ?? undefined) as Cartridge | undefined
+                )
+              }
+            />
+          </FormControl>
+          <CirclePicker
+            colors={availableColors}
+            color={color}
+            onChange={(e) => setColor(e.hex)}
+          />
+        </ModalBody>
         <ModalFooter>
-          <Button disabled={true}>Join</Button>
+          <Button
+            disabled={!canJoin}
+            onClick={async () => {
+              if (canJoin)
+                await joinGame({
+                  color,
+                  uid: user.uid,
+                  cartridge,
+                  name: displayName,
+                });
+              setJoinModalOpen(false);
+            }}
+          >
+            Join
+          </Button>
         </ModalFooter>
       </Modal>
-      {players.map(({ uid, name }, index) => (
-        <Tag closeable={uid === user?.uid}>{name ?? `Player ${index}`}</Tag>
+      {players.map(({ uid, name, color }, index) => (
+        <Tag
+          closeable={uid === user?.uid}
+          color={color}
+          key={uid}
+          kind="custom"
+          onActionClick={() => leaveGame()}
+        >
+          {name ?? `Player ${index}`}
+        </Tag>
       ))}
       <Button onClick={action}>{verb}</Button>
     </>

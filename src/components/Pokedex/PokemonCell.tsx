@@ -7,22 +7,24 @@ const PokemonCell = ({
   name,
   num,
   gameId,
+  playerId,
 }: {
   name: string;
   num: number;
   gameId: string;
+  playerId: string;
 }) => {
   const [{ data }] = usePokemonInfo({ num });
   const [css] = useStyletron();
 
   const seen = usePokemonSeen({
     gameId,
-    playerId: "tempPlayer123",
+    playerId,
     pokemonName: name,
   });
   const owned = usePokemonOwned({
     gameId,
-    playerId: "tempPlayer123",
+    playerId,
     pokemonName: name,
   });
 

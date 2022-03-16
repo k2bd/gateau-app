@@ -4,9 +4,9 @@ import useUser from "./useUser";
 import useAxios from "axios-hooks";
 
 /**
- * Set player info within a game
+ * Join a game with the local player
  */
-const useSetPlayer = ({ gameId }: { gameId: string }) => {
+const useJoinGame = ({ gameId }: { gameId: string }) => {
   const { user } = useUser();
   const [result, post] = useAxios(
     {
@@ -19,7 +19,7 @@ const useSetPlayer = ({ gameId }: { gameId: string }) => {
 
   return {
     result,
-    setPlayer: async (player: Player) => {
+    joinGame: async (player: Player) => {
       const idToken = await user?.getIdToken();
       return post({
         data: player,
@@ -29,4 +29,4 @@ const useSetPlayer = ({ gameId }: { gameId: string }) => {
   };
 };
 
-export default useSetPlayer;
+export default useJoinGame;

@@ -1,21 +1,30 @@
-import { GEN_1_POKEMON } from "../../gameData/pokemon";
-import PokemonCell from "./PokemonCell";
+import { GEN_1_POKEMON, GEN_2_POKEMON } from "../../gameData/pokemon";
+import LockoutCell from "./LockoutCell";
 import { useStyletron } from "baseui";
 import { chunk } from "lodash";
 
-/**
- * A single player's Pokedex, that marks seen in blue and caught in red.
- */
-const Pokedex = ({
+type GenOptions = 1 | 2;
+
+const LockoutTracker = ({
   gameId,
-  playerId,
+  gen,
 }: {
   gameId: string;
-  playerId: string;
+  gen: GenOptions;
 }) => {
   const [css] = useStyletron();
 
-  const pokemon = GEN_1_POKEMON;
+  let pokemon;
+  switch (gen) {
+    case 1: {
+      pokemon = GEN_1_POKEMON;
+      break;
+    }
+    case 2: {
+      pokemon = GEN_2_POKEMON;
+      break;
+    }
+  }
 
   const pokemonGroups = chunk(pokemon, 20);
 
@@ -32,11 +41,10 @@ const Pokedex = ({
           key={group[0].name ?? "emptyRow"}
         >
           {group.map(({ name, nationalDex }) => (
-            <PokemonCell
+            <LockoutCell
               num={nationalDex}
               name={name}
               gameId={gameId}
-              playerId={playerId}
               key={name}
             />
           ))}
@@ -46,4 +54,4 @@ const Pokedex = ({
   );
 };
 
-export default Pokedex;
+export default LockoutTracker;
