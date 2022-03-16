@@ -1,33 +1,40 @@
 import usePlayersList from "../../hooks/usePlayersList";
-import usePokemonFirstOwnedBy from "../../hooks/usePokemonFirstOwnedBy";
 import usePokemonInfo from "../../hooks/usePokemonInfo";
+import { GameEvent } from "../../types";
 import { useStyletron } from "baseui";
+import { StatefulTooltip } from "baseui/tooltip";
 
 const LockoutCell = ({
   name,
   num,
   gameId,
+  ownEvent,
 }: {
   name: string;
   num: number;
   gameId: string;
+  ownEvent?: GameEvent;
 }) => {
   const [{ data }] = usePokemonInfo({ num });
   const [css] = useStyletron();
 
   const { players } = usePlayersList({ gameId });
-  const ownerId = usePokemonFirstOwnedBy({ gameId, pokemonName: name });
+  const player = players.find((player) => player.uid === ownEvent?.player_id);
 
-  const background = ownerId
-    ? players.find((player) => player.uid === ownerId)?.color
-    : undefined;
+  const background = player?.color;
+  const tooltip =
+    ownEvent !== undefined
+      ? `Caught ${ownEvent.timestamp} by ${player?.name}`
+      : "Uncaught";
 
   return (
-    <img
-      className={css({ width: "48px", height: "48px", background })}
-      src={data?.sprites.front_default}
-      alt={name}
-    />
+    <StatefulTooltip content={tooltip} placement="bottom">
+      <img
+        className={css({ width: "48px", height: "48px", background })}
+        src={data?.sprites.front_default}
+        alt={name}
+      />
+    </StatefulTooltip>
   );
 };
 

@@ -1,23 +1,27 @@
 import { auth } from "../../firebaseApp";
+import useUser from "../../hooks/useUser";
 import { Button } from "baseui/button";
 import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 
 const googleProvider = new GoogleAuthProvider();
 
-const GoogleLogin = ({ onClose }: { onClose: () => void }) => {
-  const signInWithGoogle = () => {
-    signInWithPopup(auth, googleProvider)
-      .then((res) => {
-        console.log(res.user);
-      })
-      .catch((error) => {
-        console.log(error.message);
-      });
-    onClose();
+/**
+ * WIP: Google Login button.
+ */
+const GoogleLogin = ({ onClose }: { onClose?: () => void }) => {
+  const signInWithGoogle = async () => {
+    await signInWithPopup(auth, googleProvider);
+    onClose?.();
   };
+  const { loading } = useUser();
 
   return (
-    <Button onClick={signInWithGoogle} kind="tertiary" size="mini">
+    <Button
+      onClick={signInWithGoogle}
+      kind="tertiary"
+      size="mini"
+      isLoading={loading}
+    >
       <img
         src="https://developers.google.com/identity/images/btn_google_signin_light_normal_web.png"
         alt="google login"

@@ -1,6 +1,7 @@
 import { auth } from "../../firebaseApp";
 import usePokemonInfo from "../../hooks/usePokemonInfo";
 import useUser from "../../hooks/useUser";
+import Centered from "../style/Centered";
 import { useStyletron } from "baseui";
 import { Button, SIZE } from "baseui/button";
 import { FormControl } from "baseui/form-control";
@@ -12,19 +13,26 @@ import {
   ModalFooter,
   ModalHeader,
 } from "baseui/modal";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useUpdateProfile } from "react-firebase-hooks/auth";
 
-const POKEMON_SPRITE_OPTIONS = [1, 4, 7, 25];
+const POKEMON_SPRITE_OPTIONS = [
+  1, 4, 7, 10, 13, 16, 19, 21, 23, 25, 27, 29, 32, 35, 37, 39, 41, 43, 46, 48,
+  50, 52, 54, 56, 58, 60, 63, 66, 69, 72, 74, 77, 79, 81, 84, 86, 88, 90, 92,
+  96, 98, 100, 102, 104, 109, 111, 113, 114, 116, 118, 120, 126, 133, 138, 140,
+  147,
+];
 
 const PokemonSpriteOption = ({
   num,
   currentSelection,
   onSelect,
+  disabled,
 }: {
   num: number;
   currentSelection?: string | null;
   onSelect: (imageUrl: string) => void;
+  disabled: boolean;
 }) => {
   const [{ data }] = usePokemonInfo({ num });
   const [css] = useStyletron();
@@ -34,7 +42,7 @@ const PokemonSpriteOption = ({
   return (
     <Button
       onClick={() => onSelect(photoUrl ?? "")}
-      disabled={!photoUrl}
+      disabled={!photoUrl || disabled}
       size={SIZE.mini}
       isSelected={currentSelection === photoUrl}
       kind="tertiary"
@@ -66,21 +74,31 @@ const UserInfoModal = ({
     onClose();
   };
 
+  useEffect(() => {
+    if (user) {
+      if (!displayName) setDisplayName(user.displayName);
+      if (!photoURL) setPhotoURL(user.photoURL);
+    }
+  }, [user]);
+
   const spritePicks = (
-    <>
-      {POKEMON_SPRITE_OPTIONS.map((option) => (
-        <PokemonSpriteOption
-          num={option}
-          currentSelection={photoURL}
-          onSelect={setPhotoURL}
-        />
-      ))}
-    </>
+    <Centered>
+      <div style={{ height: "150px", overflowY: "scroll", width: "90%" }}>
+        {POKEMON_SPRITE_OPTIONS.map((option) => (
+          <PokemonSpriteOption
+            num={option}
+            currentSelection={photoURL}
+            onSelect={setPhotoURL}
+            disabled={!user}
+          />
+        ))}
+      </div>
+    </Centered>
   );
 
   return (
     <Modal isOpen={isOpen} onClose={onClose}>
-      <ModalHeader>Set user info</ModalHeader>
+      <ModalHeader>Profile Info</ModalHeader>
       <ModalBody>
         <FormControl
           label={() => "Display Name"}
@@ -89,6 +107,7 @@ const UserInfoModal = ({
           <Input
             value={displayName ?? ""}
             onChange={(e) => setDisplayName(e.currentTarget.value)}
+            disabled={!user}
           />
         </FormControl>
         <FormControl

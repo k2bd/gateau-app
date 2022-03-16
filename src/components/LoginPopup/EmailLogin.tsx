@@ -1,23 +1,19 @@
 import { auth } from "../../firebaseApp";
+import useUser from "../../hooks/useUser";
 import { Button } from "baseui/button";
 import { Input } from "baseui/input";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { useState } from "react";
 import { MdOutlineEmail, MdOutlinePassword } from "react-icons/md";
 
-const GoogleLogin = ({ onClose }: { onClose: () => void }) => {
+const EmailLogin = ({ onClose }: { onClose?: () => void }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const { loading } = useUser();
 
   const signIn = async () => {
-    await signInWithEmailAndPassword(auth, email, password)
-      .then((res) => {
-        console.log(res.user);
-      })
-      .catch((error) => {
-        console.log(error.message);
-      });
-    onClose();
+    await signInWithEmailAndPassword(auth, email, password);
+    onClose?.();
   };
 
   return (
@@ -33,9 +29,11 @@ const GoogleLogin = ({ onClose }: { onClose: () => void }) => {
         startEnhancer={() => <MdOutlinePassword />}
         type="password"
       />
-      <Button onClick={signIn}>Sign In</Button>
+      <Button onClick={signIn} isLoading={loading}>
+        Sign In
+      </Button>
     </>
   );
 };
 
-export default GoogleLogin;
+export default EmailLogin;

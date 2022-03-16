@@ -1,14 +1,13 @@
-import useJoinGame from "../../hooks/useJoinGame";
-import useLeaveGame from "../../hooks/useLeaveGame";
-import usePlayersList from "../../hooks/usePlayersList";
-import useUser from "../../hooks/useUser";
-import { Cartridge } from "../../types";
-import { Button } from "baseui/button";
+import useJoinGame from "../hooks/useJoinGame";
+import useLeaveGame from "../hooks/useLeaveGame";
+import usePlayersList from "../hooks/usePlayersList";
+import useUser from "../hooks/useUser";
+import { Cartridge } from "../types";
+import PlayerTag from "./PlayerTag";
+import { Button, SIZE } from "baseui/button";
 import { FormControl } from "baseui/form-control";
-import { Input } from "baseui/input";
 import { Modal, ModalBody, ModalFooter, ModalHeader } from "baseui/modal";
 import { Select } from "baseui/select";
-import { Tag } from "baseui/tag";
 import { useState } from "react";
 import { CirclePicker } from "react-color";
 
@@ -42,9 +41,6 @@ const PlayersList = ({ gameId }: { gameId: string }) => {
 
   const [cartridge, setCartridge] = useState<Cartridge | undefined>(undefined);
   const [color, setColor] = useState<string | undefined>(undefined);
-  const [displayName, setDisplayName] = useState<string>(
-    user?.displayName ?? ""
-  );
 
   const isJoined =
     user && players.map((player) => player.uid).includes(user.uid);
@@ -53,10 +49,10 @@ const PlayersList = ({ gameId }: { gameId: string }) => {
   const action = isJoined ? () => leaveGame() : () => setJoinModalOpen(true);
 
   const canJoin =
+    !!user &&
     user?.uid !== undefined &&
     cartridge !== undefined &&
-    color !== undefined &&
-    displayName !== "";
+    color !== undefined;
 
   const availableColors = GATEAU_PLAYER_COLORS.filter(
     (color) => !players.map((player) => player.color).includes(color)
@@ -78,12 +74,6 @@ const PlayersList = ({ gameId }: { gameId: string }) => {
       >
         <ModalHeader>Join Game</ModalHeader>
         <ModalBody>
-          <FormControl label="Display Name">
-            <Input
-              value={displayName}
-              onChange={(e) => setDisplayName(e.currentTarget.value)}
-            />
-          </FormControl>
           <FormControl label="Cartridge">
             <Select
               options={cartOptions}
@@ -110,7 +100,8 @@ const PlayersList = ({ gameId }: { gameId: string }) => {
                   color,
                   uid: user.uid,
                   cartridge,
-                  name: displayName,
+                  name: user.displayName,
+                  photo_url: user.photoURL,
                 });
               setJoinModalOpen(false);
             }}
@@ -119,18 +110,20 @@ const PlayersList = ({ gameId }: { gameId: string }) => {
           </Button>
         </ModalFooter>
       </Modal>
-      {players.map(({ uid, name, color }, index) => (
-        <Tag
-          closeable={uid === user?.uid}
-          color={color}
-          key={uid}
-          kind="custom"
-          onActionClick={() => leaveGame()}
-        >
-          {name ?? `Player ${index}`}
-        </Tag>
+      {players.map((player, index) => (
+        <PlayerTag player={player} index={index} key={player.uid} />
       ))}
-      <Button onClick={action}>{verb}</Button>
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+      >
+        <Button onClick={action} size={SIZE.compact}>
+          {verb}
+        </Button>
+      </div>
     </>
   );
 };

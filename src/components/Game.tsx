@@ -1,6 +1,5 @@
 import { GEN_2_POKEMON, toOwned, toSeen } from "../gameData/pokemon";
 import useAddSubscriptions from "../hooks/useAddSubscriptions";
-import PlayersList from "./Game/PlayersList";
 import LockoutTracker from "./LockoutTracker";
 import { useEffect } from "react";
 import { useParams } from "react-router-dom";
@@ -23,8 +22,7 @@ const Game = () => {
 
   return (
     <>
-      <PlayersList gameId={gameId ?? ""} />
-      <LockoutTracker gameId={gameId ?? ""} gen={2} />
+      <LockoutTracker gameId={gameId ?? ""} gen={1} />
     </>
   );
 };

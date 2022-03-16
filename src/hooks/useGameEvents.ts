@@ -13,9 +13,12 @@ const useGameEvents = ({ gameId }: { gameId: string }) => {
     path,
   });
 
-  const events = sortBy(Object.values(value ?? {}) as GameEvent[], [
-    "timestamp",
-  ]);
+  const events = sortBy(
+    Object.values(value ?? {}).filter(
+      (value): value is GameEvent => value !== undefined
+    ),
+    ["timestamp"]
+  );
 
   return { events, loading, error };
 };

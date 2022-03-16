@@ -1,7 +1,10 @@
+import AboutRoute from "./components/AboutRoute";
 import App from "./components/App";
 import Game from "./components/Game";
 import GameSelect from "./components/GameSelect";
 import GamesRoute from "./components/GamesRoute";
+import LoginRoute from "./components/LoginRoute";
+import SupportRoute from "./components/SupportRoute";
 import reportWebVitals from "./reportWebVitals";
 import { BaseProvider, LightTheme } from "baseui";
 import React from "react";
@@ -18,8 +21,11 @@ ReactDOM.render(
       <BaseProvider theme={LightTheme}>
         <HashRouter>
           <Routes>
+            <Route path="login" element={<LoginRoute />} />
             <Route path="/" element={<App />}>
               <Route path="" element={<GameSelect />} />
+              <Route path="about" element={<AboutRoute />} />
+              <Route path="support" element={<SupportRoute />} />
               <Route path="games" element={<GamesRoute />}>
                 <Route path="" element={<></>} />
                 <Route path=":gameId" element={<Game />} />

@@ -8,11 +8,14 @@ export enum Cartridge {
   POKEMON_BLUE = "Pokemon Blue",
 }
 
+export type Generation = 1 | 2;
+
 export interface Player {
   uid: string;
   cartridge: Cartridge;
   color: string;
-  name: string | null;
+  name?: string | null;
+  photo_url?: string | null;
 }
 
 export interface GameEvent {

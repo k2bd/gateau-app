@@ -11,12 +11,18 @@ const LoginPopup = ({
   onClose,
 }: {
   isOpen: boolean;
-  onClose: () => void;
+  onClose?: () => void;
 }) => {
   const [, theme] = useStyletron();
 
   return (
-    <Modal onClose={onClose} isOpen={isOpen} closeable animate autoFocus>
+    <Modal
+      onClose={onClose}
+      isOpen={isOpen}
+      closeable={onClose !== undefined}
+      animate
+      autoFocus
+    >
       <ModalHeader>Log In</ModalHeader>
       <ModalBody>
         <Centered>

@@ -1,7 +1,8 @@
+import useUser from "../hooks/useUser";
 import Sidebar from "./Sidebar";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import "react-pro-sidebar/dist/css/styles.css";
-import { Outlet } from "react-router-dom";
+import { Outlet, useNavigate } from "react-router-dom";
 
 export const SIDEBAR_EXPANDED_WIDTH = "270px";
 export const SIDEBAR_COLLAPSED_WIDTH = "80px";
@@ -11,6 +12,13 @@ const App = () => {
   const sidebarWidth = collapsed
     ? SIDEBAR_COLLAPSED_WIDTH
     : SIDEBAR_EXPANDED_WIDTH;
+
+  const { user } = useUser();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (!user) navigate("login");
+  }, [user]);
 
   return (
     <div style={{ height: "100%" }}>
@@ -33,6 +41,7 @@ const App = () => {
           left: sidebarWidth,
           height: "100%",
           width: `calc(100% - ${sidebarWidth})`,
+          transition: "0.3s",
         }}
       >
         <Outlet />
