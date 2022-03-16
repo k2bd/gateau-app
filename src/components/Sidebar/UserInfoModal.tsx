@@ -90,6 +90,7 @@ const UserInfoModal = ({
             currentSelection={photoURL}
             onSelect={setPhotoURL}
             disabled={!user}
+            key={option}
           />
         ))}
       </div>
