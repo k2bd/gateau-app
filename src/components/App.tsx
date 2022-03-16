@@ -13,11 +13,11 @@ const App = () => {
     ? SIDEBAR_COLLAPSED_WIDTH
     : SIDEBAR_EXPANDED_WIDTH;
 
-  const { user } = useUser();
+  const { user, loading } = useUser();
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (!user) navigate("login");
+    if (!user && !loading) navigate("login");
   }, [user]);
 
   return (

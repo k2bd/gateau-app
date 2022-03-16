@@ -45,11 +45,12 @@ const Sidebar = ({
   collapsed: boolean;
   setCollapsed: Dispatch<SetStateAction<boolean>>;
 }) => {
-  const { user, signOut } = useUser();
+  const { user, loading, signOut } = useUser();
   const [userInfoModalOpen, setUserInfoModalOpen] = useState(false);
 
   useEffect(() => {
-    if (!user?.displayName || !user.photoURL) setUserInfoModalOpen(true);
+    if (user && !loading && (!user?.displayName || !user.photoURL))
+      setUserInfoModalOpen(true);
   }, [user]);
 
   const headerContent = (
