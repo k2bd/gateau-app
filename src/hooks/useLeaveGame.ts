@@ -7,7 +7,7 @@ import useAxios from "axios-hooks";
  */
 const useLeaveGame = ({ gameId }: { gameId: string }) => {
   const { user } = useUser();
-  const [result, leave] = useAxios(
+  const [{ data, loading, error }, leave] = useAxios(
     {
       url: `/game/${gameId}/players`,
       baseURL: GATEAU_API_URL,
@@ -17,7 +17,9 @@ const useLeaveGame = ({ gameId }: { gameId: string }) => {
   );
 
   return {
-    result,
+    data,
+    loading,
+    error,
     leaveGame: async () => {
       const idToken = await user?.getIdToken();
       return leave({

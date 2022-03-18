@@ -37,8 +37,8 @@ const GATEAU_PLAYER_COLORS = [
 const PlayersList = ({ gameId }: { gameId: string }) => {
   const { players } = usePlayersList({ gameId });
   const { user } = useUser();
-  const { leaveGame } = useLeaveGame({ gameId });
-  const { joinGame } = useJoinGame({ gameId });
+  const { leaveGame, loading: leaveGameLoading } = useLeaveGame({ gameId });
+  const { joinGame, loading: joinGameLoading } = useJoinGame({ gameId });
   const [joinModalOpen, setJoinModalOpen] = useState(false);
 
   const [cartridge, setCartridge] = useState<Cartridge | undefined>(undefined);
@@ -98,6 +98,7 @@ const PlayersList = ({ gameId }: { gameId: string }) => {
         <ModalFooter>
           <Button
             disabled={!canJoin}
+            isLoading={joinGameLoading}
             onClick={async () => {
               if (canJoin)
                 await joinGame({
@@ -130,7 +131,11 @@ const PlayersList = ({ gameId }: { gameId: string }) => {
           alignItems: "center",
         }}
       >
-        <Button onClick={action} size={SIZE.compact}>
+        <Button
+          onClick={action}
+          size={SIZE.compact}
+          isLoading={joinGameLoading || leaveGameLoading}
+        >
           {verb}
         </Button>
       </div>

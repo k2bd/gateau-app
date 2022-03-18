@@ -8,7 +8,7 @@ import useAxios from "axios-hooks";
  */
 const useJoinGame = ({ gameId }: { gameId: string }) => {
   const { user } = useUser();
-  const [result, post] = useAxios(
+  const [{ data, loading, error }, post] = useAxios(
     {
       url: `/game/${gameId}/players`,
       baseURL: GATEAU_API_URL,
@@ -18,7 +18,9 @@ const useJoinGame = ({ gameId }: { gameId: string }) => {
   );
 
   return {
-    result,
+    data,
+    loading,
+    error,
     joinGame: async (player: Player) => {
       const idToken = await user?.getIdToken();
       return post({
