@@ -7,22 +7,24 @@ const PokemonCell = ({
   name,
   num,
   gameId,
+  playerId,
 }: {
   name: string;
   num: number;
   gameId: string;
+  playerId: string;
 }) => {
   const [{ data }] = usePokemonInfo({ num });
   const [css] = useStyletron();
 
   const seen = usePokemonSeen({
     gameId,
-    playerId: "tempPlayer123",
+    playerId,
     pokemonName: name,
   });
   const owned = usePokemonOwned({
     gameId,
-    playerId: "tempPlayer123",
+    playerId,
     pokemonName: name,
   });
 
@@ -30,7 +32,7 @@ const PokemonCell = ({
 
   return (
     <img
-      className={css({ width: "64px", height: "64px", background })}
+      className={css({ width: "48px", height: "48px", background })}
       src={data?.sprites.front_default}
       alt={name}
     />

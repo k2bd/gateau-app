@@ -1,12 +1,21 @@
+export enum Stage {
+  DEV,
+  PROD,
+}
+
 export enum Cartridge {
   POKEMON_RED = "Pokemon Red",
   POKEMON_BLUE = "Pokemon Blue",
 }
 
+export type Generation = 1 | 2;
+
 export interface Player {
   uid: string;
-  name: string;
   cartridge: Cartridge;
+  color: string;
+  name?: string | null;
+  photo_url?: string | null;
 }
 
 export interface GameEvent {

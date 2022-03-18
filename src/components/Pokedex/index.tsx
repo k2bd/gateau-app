@@ -3,13 +3,19 @@ import PokemonCell from "./PokemonCell";
 import { useStyletron } from "baseui";
 import { chunk } from "lodash";
 
-const Pokedex = ({ gameId }: { gameId: string }) => {
+/**
+ * A single player's Pokedex, that marks seen in blue and caught in red.
+ */
+const Pokedex = ({
+  gameId,
+  playerId,
+}: {
+  gameId: string;
+  playerId: string;
+}) => {
   const [css] = useStyletron();
 
-  const pokemon = GEN_1_POKEMON.map((name, index) => ({
-    name,
-    num: index + 1,
-  }));
+  const pokemon = GEN_1_POKEMON;
 
   const pokemonGroups = chunk(pokemon, 20);
 
@@ -21,9 +27,18 @@ const Pokedex = ({ gameId }: { gameId: string }) => {
       })}
     >
       {pokemonGroups.map((group) => (
-        <div className={css({ flexDirection: "row" })}>
-          {group.map(({ name, num }) => (
-            <PokemonCell num={num} name={name} gameId={gameId} />
+        <div
+          className={css({ flexDirection: "row" })}
+          key={group[0].name ?? "emptyRow"}
+        >
+          {group.map(({ name, nationalDex }) => (
+            <PokemonCell
+              num={nationalDex}
+              name={name}
+              gameId={gameId}
+              playerId={playerId}
+              key={name}
+            />
           ))}
         </div>
       ))}

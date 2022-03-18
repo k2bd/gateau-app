@@ -1,32 +1,30 @@
 import { GATEAU_API_URL } from "../constants";
-import { Player } from "../types";
 import useUser from "./useUser";
 import useAxios from "axios-hooks";
 
 /**
- * Set player info within a game
+ * Leave a game
  */
-const useSetPlayer = ({ gameId }: { gameId: string }) => {
+const useLeaveGame = ({ gameId }: { gameId: string }) => {
   const { user } = useUser();
-  const [result, post] = useAxios(
+  const [result, leave] = useAxios(
     {
       url: `/game/${gameId}/players`,
       baseURL: GATEAU_API_URL,
-      method: "POST",
+      method: "DELETE",
     },
     { manual: true, autoCancel: false }
   );
 
   return {
     result,
-    setPlayer: async (player: Player) => {
+    leaveGame: async () => {
       const idToken = await user?.getIdToken();
-      return post({
-        data: player,
+      return leave({
         headers: { Authorization: `Bearer ${idToken}` },
       });
     },
   };
 };
 
-export default useSetPlayer;
+export default useLeaveGame;
