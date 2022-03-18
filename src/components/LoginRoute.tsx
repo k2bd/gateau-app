@@ -9,7 +9,7 @@ const LoginRoute = () => {
 
   useEffect(() => {
     if (user && !loading) navigate("/");
-  }, [user]);
+  }, [user, loading]);
 
   return <LoginPopup isOpen={true} />;
 };
