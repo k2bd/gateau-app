@@ -1,3 +1,5 @@
+import { GEN_2_POKEMON, toOwned, toSeen } from "../gameData/pokemon";
+import useAddSubscriptions from "../hooks/useAddSubscriptions";
 import useJoinGame from "../hooks/useJoinGame";
 import useLeaveGame from "../hooks/useLeaveGame";
 import usePlayersList from "../hooks/usePlayersList";
@@ -63,6 +65,8 @@ const PlayersList = ({ gameId }: { gameId: string }) => {
     label: value,
   }));
 
+  const { addSubscriptions } = useAddSubscriptions({ gameId });
+
   return (
     <>
       <Modal
@@ -103,6 +107,12 @@ const PlayersList = ({ gameId }: { gameId: string }) => {
                   name: user.displayName,
                   photo_url: user.photoURL,
                 });
+              addSubscriptions(
+                /// TEMP!!
+                GEN_2_POKEMON.map((pokemon) => toOwned(pokemon.name)).concat(
+                  GEN_2_POKEMON.map((pokemon) => toSeen(pokemon.name))
+                )
+              );
               setJoinModalOpen(false);
             }}
           >

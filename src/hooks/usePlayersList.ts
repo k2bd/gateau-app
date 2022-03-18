@@ -12,7 +12,7 @@ const usePlayersList = ({ gameId }: { gameId: string }) => {
     }
   );
 
-  const players = Object.values(value ?? {}) as Player[];
+  const players = (value ? Object.values(value) : []) as Player[];
 
   return { players, loading, error };
 };

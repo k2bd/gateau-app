@@ -1,8 +1,5 @@
-import { toOwned } from "../../gameData/pokemon";
-import useAddSubscriptions from "../../hooks/useAddSubscriptions";
 import useLockoutInfo from "../../hooks/useLockoutInfo";
 import usePlayersList from "../../hooks/usePlayersList";
-import useUser from "../../hooks/useUser";
 import { Generation } from "../../types";
 import pokemonForGen from "../../util/pokemonForGen";
 import LockoutCell from "./LockoutCell";
@@ -10,7 +7,6 @@ import { styled, useStyletron } from "baseui";
 import { StatefulTooltip } from "baseui/tooltip";
 import Color from "color";
 import { chunk } from "lodash";
-import { useEffect } from "react";
 
 const PokeGrid = styled("div", {
   display: "flex",
@@ -33,23 +29,11 @@ const LockoutTracker = ({
 }) => {
   const [css] = useStyletron();
 
-  const { user, loading } = useUser();
-
   const pokemon = pokemonForGen(gen);
   const pokemonGroups = chunk(pokemon, 20);
 
   const { players } = usePlayersList({ gameId });
   const { firstOwnedEvents } = useLockoutInfo({ gameId, gen });
-
-  const { addSubscriptions } = useAddSubscriptions({ gameId: gameId ?? "" });
-
-  // TODO: switch this to watch the subscriptions and add any missing ones
-  useEffect(() => {
-    if (!!user && !loading)
-      addSubscriptions(
-        pokemonForGen(gen).map((pokemon) => toOwned(pokemon.name))
-      );
-  }, [user, loading]);
 
   const scores = players.map((player) => {
     const score = firstOwnedEvents.filter(
