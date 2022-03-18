@@ -17,8 +17,8 @@ const App = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (!user && !loading) navigate("login");
-  }, [user]);
+    if (!user && !loading) navigate("/login");
+  }, [user, loading]);
 
   return (
     <div style={{ height: "100%" }}>
