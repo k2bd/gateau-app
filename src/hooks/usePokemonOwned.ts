@@ -1,4 +1,5 @@
 import { toOwned } from "../gameData/pokemon";
+import findLatestEvent from "../util/findLatestEvent";
 import useGameEvents from "./useGameEvents";
 
 const usePokemonOwned = ({
@@ -12,14 +13,13 @@ const usePokemonOwned = ({
 }) => {
   const { events } = useGameEvents({ gameId });
 
-  const caught = events.find(
-    (e) =>
-      e.player_id === playerId &&
-      e.meaning === toOwned(pokemonName) &&
-      e.value === "True"
-  );
+  const latestCaught = findLatestEvent({
+    events,
+    playerId,
+    eventType: toOwned(pokemonName),
+  });
 
-  return !!caught;
+  return latestCaught?.value === "True";
 };
 
 export default usePokemonOwned;

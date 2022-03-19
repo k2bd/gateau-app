@@ -1,4 +1,5 @@
 import { toSeen } from "../gameData/pokemon";
+import findLatestEvent from "../util/findLatestEvent";
 import useGameEvents from "./useGameEvents";
 
 const usePokemonSeen = ({
@@ -12,14 +13,13 @@ const usePokemonSeen = ({
 }) => {
   const { events } = useGameEvents({ gameId });
 
-  const seen = events.find(
-    (e) =>
-      e.player_id === playerId &&
-      e.meaning === toSeen(pokemonName) &&
-      e.value === "True"
-  );
+  const latestSeen = findLatestEvent({
+    events,
+    playerId,
+    eventType: toSeen(pokemonName),
+  });
 
-  return !!seen;
+  return latestSeen?.value === "True";
 };
 
 export default usePokemonSeen;
