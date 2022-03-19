@@ -3,6 +3,7 @@ import usePokemonInfo from "../../hooks/usePokemonInfo";
 import { GameEvent } from "../../types";
 import { useStyletron } from "baseui";
 import { StatefulTooltip } from "baseui/tooltip";
+import moment from "moment";
 
 const LockoutCell = ({
   name,
@@ -21,10 +22,14 @@ const LockoutCell = ({
   const { players } = usePlayersList({ gameId });
   const player = players.find((player) => player.uid === ownEvent?.player_id);
 
+  const displayTimestamp = ownEvent
+    ? moment(ownEvent.timestamp).format("HH:mm:ss, D MMM YYYY")
+    : null;
+
   const background = player?.color;
   const tooltip =
     ownEvent !== undefined
-      ? `Caught ${ownEvent.timestamp} by ${player?.name}`
+      ? `${player?.name} at ${displayTimestamp}`
       : "Uncaught";
 
   return (
