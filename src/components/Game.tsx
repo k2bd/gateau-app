@@ -6,7 +6,7 @@ const Game = () => {
 
   return (
     <>
-      <LockoutTracker gameId={gameId ?? ""} gen={1} />
+      <LockoutTracker gameId={gameId ?? ""} gen={2} />
     </>
   );
 };

@@ -6,6 +6,9 @@ export enum Stage {
 export enum Cartridge {
   POKEMON_RED = "Pokemon Red",
   POKEMON_BLUE = "Pokemon Blue",
+  POKEMON_GOLD = "Pokemon Gold",
+  POKEMON_SILVER = "Pokemon Silver",
+  POKEMON_CRYSTAL = "Pokemon Crystal",
 }
 
 export type Generation = 1 | 2;
@@ -18,9 +21,11 @@ export interface Player {
   photo_url?: string | null;
 }
 
+export type EventValueType = string | number | boolean;
+
 export interface GameEvent {
   meaning: string;
-  value: string | number | boolean;
+  value: EventValueType;
   player_id: string;
   timestamp: string;
 }

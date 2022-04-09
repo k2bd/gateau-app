@@ -13,13 +13,18 @@ interface TrackerInfo {
 export const TRACKERS: TrackerInfo[] = [
   {
     name: CATCH_EM_ALL,
-    available: true,
+    available: false,
     compatibleCartriges: [Cartridge.POKEMON_RED, Cartridge.POKEMON_BLUE],
   },
   {
     name: LOCKOUT_RACE,
-    available: false,
-    compatibleCartriges: [Cartridge.POKEMON_RED, Cartridge.POKEMON_BLUE],
+    available: true,
+    compatibleCartriges: [
+      Cartridge.POKEMON_RED,
+      Cartridge.POKEMON_BLUE,
+      Cartridge.POKEMON_GOLD,
+      Cartridge.POKEMON_SILVER,
+    ],
   },
   {
     name: PARTY_STATUS,

@@ -1,4 +1,4 @@
-import { GEN_1_POKEMON, toOwned, toSeen } from "../gameData/pokemon";
+import { GEN_2_POKEMON, toOwned, toSeen } from "../gameData/pokemon";
 import useAddSubscriptions from "../hooks/useAddSubscriptions";
 import useJoinGame from "../hooks/useJoinGame";
 import useLeaveGame from "../hooks/useLeaveGame";
@@ -110,8 +110,8 @@ const PlayersList = ({ gameId }: { gameId: string }) => {
                 });
               addSubscriptions(
                 /// TODO: TEMP!! Move this to a 'start game' button
-                GEN_1_POKEMON.map((pokemon) => toOwned(pokemon.name)).concat(
-                  GEN_1_POKEMON.map((pokemon) => toSeen(pokemon.name))
+                GEN_2_POKEMON.map((pokemon) => toOwned(pokemon.name)).concat(
+                  GEN_2_POKEMON.map((pokemon) => toSeen(pokemon.name))
                 )
               );
               setJoinModalOpen(false);

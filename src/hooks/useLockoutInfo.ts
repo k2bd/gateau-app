@@ -1,6 +1,6 @@
 import { toOwned } from "../gameData/pokemon";
 import { GameEvent, Generation } from "../types";
-import findLatestEvent from "../util/findLatestEvent";
+import findFirstEvent from "../util/findFirstEvent";
 import pokemonForGen from "../util/pokemonForGen";
 import useGameEvents from "./useGameEvents";
 import usePlayersList from "./usePlayersList";
@@ -26,11 +26,14 @@ const useLockoutInfo = ({
       // these defines the owner of the square.
       // This is to handle savescumming, and other cases where a player catches
       // then uncatches a pokemon, and so on.
+      // TODO: fix this to support resets.
       const latestPlayerEvents = players.map((player) =>
-        findLatestEvent({
+        //findLatestEvent({
+        findFirstEvent({
           events,
           playerId: player.uid,
           eventType: toOwned(pokemon.name),
+          value: "True",
         })
       );
       const event = sortBy(latestPlayerEvents, ["timestamp"]).find(
