@@ -30,7 +30,6 @@ const LockoutCell = ({
   });
 
   const { players } = usePlayersList({ gameId });
-  const userPlayer = players.find((player) => player.uid === user?.uid);
   const owner = players.find((player) => player.uid === ownEvent?.player_id);
 
   const displayTimestamp = ownEvent
@@ -58,7 +57,7 @@ const LockoutCell = ({
         />
         {seen && (
           <div style={{ position: "absolute", left: 0, top: 0, zIndex: 1 }}>
-            <FaEye color={userPlayer?.color} />
+            <FaEye />
           </div>
         )}
       </div>
