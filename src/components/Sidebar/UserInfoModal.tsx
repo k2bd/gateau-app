@@ -1,4 +1,5 @@
 import { auth } from "../../firebaseApp";
+import * as pokemon from "../../gameData/pokemon";
 import usePokemonInfo from "../../hooks/usePokemonInfo";
 import useUser from "../../hooks/useUser";
 import Centered from "../style/Centered";
@@ -16,30 +17,122 @@ import {
 import { useEffect, useState } from "react";
 import { useUpdateProfile } from "react-firebase-hooks/auth";
 
-const POKEMON_SPRITE_OPTIONS = [
-  1, 4, 7, 10, 13, 16, 19, 21, 23, 172, 25, 27, 29, 32, 173, 35, 37, 174, 39,
-  41, 43, 46, 48, 50, 52, 54, 56, 58, 60, 63, 66, 69, 72, 74, 77, 79, 81, 84,
-  86, 88, 90, 92, 95, 96, 98, 100, 102, 104, 109, 111, 113, 116, 118, 120, 123,
-  129, 133, 137, 138, 140, 147, 152, 155, 158, 161, 163, 165, 167, 170, 175,
-  177, 179, 183, 187, 191, 194, 204, 209, 216, 218, 220, 223, 228, 231, 236,
-  238, 239, 240, 246,
-];
+interface SpriteOption extends pokemon.Pokemon {
+  shiny: boolean;
+}
+
+const BASE_POKEMON_SPRITE_OPTIONS: SpriteOption[] = [
+  pokemon.BULBASAUR,
+  pokemon.CHARMANDER,
+  pokemon.SQUIRTLE,
+  pokemon.CATERPIE,
+  pokemon.WEEDLE,
+  pokemon.PIDGEY,
+  pokemon.RATTATA,
+  pokemon.SPEAROW,
+  pokemon.EKANS,
+  pokemon.PICHU,
+  pokemon.PIKACHU,
+  pokemon.SANDSHREW,
+  pokemon.NIDORAN_F,
+  pokemon.NIDORAN_M,
+  pokemon.CLEFFA,
+  pokemon.CLEFAIRY,
+  pokemon.VULPIX,
+  pokemon.IGGLYBUFF,
+  pokemon.JIGGLYPUFF,
+  pokemon.ZUBAT,
+  pokemon.ODDISH,
+  pokemon.PARAS,
+  pokemon.VENONAT,
+  pokemon.DIGLETT,
+  pokemon.MEOWTH,
+  pokemon.PSYDUCK,
+  pokemon.MANKEY,
+  pokemon.GROWLITHE,
+  pokemon.POLIWAG,
+  pokemon.ABRA,
+  pokemon.MACHOP,
+  pokemon.BELLSPROUT,
+  pokemon.TENTACOOL,
+  pokemon.GEODUDE,
+  pokemon.PONYTA,
+  pokemon.SLOWPOKE,
+  pokemon.MAGNEMITE,
+  pokemon.DODUO,
+  pokemon.SEEL,
+  pokemon.GRIMER,
+  pokemon.SHELLDER,
+  pokemon.GASTLY,
+  pokemon.ONIX,
+  pokemon.DROWZEE,
+  pokemon.KRABBY,
+  pokemon.VOLTORB,
+  pokemon.EXEGGCUTE,
+  pokemon.CUBONE,
+  pokemon.TYROGUE,
+  pokemon.HITMONLEE,
+  pokemon.HITMONCHAN,
+  pokemon.KOFFING,
+  pokemon.RHYHORN,
+  pokemon.CHANSEY,
+  pokemon.HORSEA,
+  pokemon.GOLDEEN,
+  pokemon.STARYU,
+  pokemon.SCYTHER,
+  pokemon.SMOOCHUM,
+  pokemon.ELEKID,
+  pokemon.MAGBY,
+  pokemon.MAGIKARP,
+  pokemon.EEVEE,
+  pokemon.PORYGON,
+  pokemon.OMANYTE,
+  pokemon.KABUTO,
+  pokemon.DRATINI,
+  pokemon.CHIKORITA,
+  pokemon.CYNDAQUIL,
+  pokemon.TOTODILE,
+  pokemon.SENTRET,
+  pokemon.HOOTHOOT,
+  pokemon.LEDYBA,
+  pokemon.SPINARAK,
+  pokemon.CHINCHOU,
+  pokemon.TOGEPI,
+  pokemon.NATU,
+  pokemon.MAREEP,
+  pokemon.AZURILL,
+  pokemon.HOPPIP,
+  pokemon.SUNKERN,
+  pokemon.WOOPER,
+  pokemon.WYNAUT,
+  pokemon.PINECO,
+  pokemon.SNUBBULL,
+  pokemon.TEDDIURSA,
+  pokemon.SLUGMA,
+  pokemon.SWINUB,
+  pokemon.REMORAID,
+  pokemon.HOUNDOUR,
+  pokemon.PHANPY,
+  pokemon.LARVITAR,
+].map((option) => ({ ...option, shiny: false }));
 
 const PokemonSpriteOption = ({
-  num,
+  option,
   currentSelection,
   onSelect,
   disabled,
 }: {
-  num: number;
+  option: SpriteOption;
   currentSelection?: string | null;
   onSelect: (imageUrl: string) => void;
   disabled: boolean;
 }) => {
-  const [{ data }] = usePokemonInfo({ num });
+  const [{ data }] = usePokemonInfo({ num: option.nationalDex });
   const [css] = useStyletron();
 
-  const photoUrl = data?.sprites.front_default;
+  const photoUrl = option.shiny
+    ? data?.sprites.front_shiny
+    : data?.sprites.front_default;
 
   return (
     <Button
@@ -86,13 +179,13 @@ const UserInfoModal = ({
   const spritePicks = (
     <Centered>
       <div style={{ height: "150px", overflowY: "scroll", width: "90%" }}>
-        {POKEMON_SPRITE_OPTIONS.map((option) => (
+        {BASE_POKEMON_SPRITE_OPTIONS.map((option) => (
           <PokemonSpriteOption
-            num={option}
+            option={option}
             currentSelection={photoURL}
             onSelect={setPhotoURL}
             disabled={!user}
-            key={option}
+            key={option.nationalDex}
           />
         ))}
       </div>
