@@ -180,6 +180,7 @@ const UserSection = ({
 };
 
 const OverflowY = styled("div", {
+  height: "100%",
   overflowY: "scroll",
 });
 

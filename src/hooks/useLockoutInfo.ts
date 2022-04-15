@@ -1,9 +1,11 @@
-import { toOwned } from "../gameData/pokemon";
+import { toOwned, toSeen } from "../gameData/pokemon";
 import { GameEvent, Generation } from "../types";
 import findFirstEvent from "../util/findFirstEvent";
+import findLatestEvent from "../util/findLatestEvent";
 import pokemonForGen from "../util/pokemonForGen";
 import useGameEvents from "./useGameEvents";
 import usePlayersList from "./usePlayersList";
+import useUser from "./useUser";
 import { sortBy } from "lodash";
 
 /**
@@ -19,6 +21,7 @@ const useLockoutInfo = ({
 }) => {
   const { events } = useGameEvents({ gameId });
   const { players } = usePlayersList({ gameId });
+  const { user } = useUser();
 
   const firstOwnedEvents = pokemonForGen(gen)
     .map((pokemon) => {
@@ -44,7 +47,18 @@ const useLockoutInfo = ({
     })
     .filter((e): e is GameEvent & { dex: number } => e.player_id !== undefined);
 
-  return { firstOwnedEvents };
+  const playerSeenPokemon = pokemonForGen(gen)
+    .filter(
+      (pokemon) =>
+        findLatestEvent({
+          events,
+          playerId: user?.uid ?? "",
+          eventType: toSeen(pokemon.name),
+        })?.value === "True"
+    )
+    .map((p) => p.nationalDex);
+
+  return { firstOwnedEvents, playerSeenPokemon };
 };
 
 export default useLockoutInfo;

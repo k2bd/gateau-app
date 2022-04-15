@@ -169,8 +169,8 @@ const UserInfoModal = ({
 
   const { data: bonusAvatars } = useAvailableAvatars();
 
-  const availableAvatars = BASE_POKEMON_SPRITE_OPTIONS.concat(
-    ...(bonusAvatars ?? [])
+  const availableAvatars = (bonusAvatars ?? []).concat(
+    ...BASE_POKEMON_SPRITE_OPTIONS
   );
 
   const [displayName, setDisplayName] = useState(user?.displayName);
@@ -197,7 +197,7 @@ const UserInfoModal = ({
             currentSelection={photoURL}
             onSelect={setPhotoURL}
             disabled={!user}
-            key={option.nationalDex}
+            key={`${option}`}
           />
         ))}
       </div>

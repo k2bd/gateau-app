@@ -1,7 +1,5 @@
 import usePlayersList from "../../hooks/usePlayersList";
 import usePokemonInfo from "../../hooks/usePokemonInfo";
-import usePokemonSeen from "../../hooks/usePokemonSeen";
-import useUser from "../../hooks/useUser";
 import { GameEvent } from "../../types";
 import { useStyletron } from "baseui";
 import { StatefulTooltip } from "baseui/tooltip";
@@ -13,21 +11,16 @@ const LockoutCell = ({
   num,
   gameId,
   ownEvent,
+  seen,
 }: {
   name: string;
   num: number;
   gameId: string;
   ownEvent?: GameEvent;
+  seen: boolean;
 }) => {
   const [{ data }] = usePokemonInfo({ num });
   const [css] = useStyletron();
-
-  const { user } = useUser();
-  const seen = usePokemonSeen({
-    gameId,
-    playerId: user?.uid ?? "",
-    pokemonName: name,
-  });
 
   const { players } = usePlayersList({ gameId });
   const owner = players.find((player) => player.uid === ownEvent?.player_id);

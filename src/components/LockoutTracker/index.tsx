@@ -33,7 +33,10 @@ const LockoutTracker = ({
   const pokemonGroups = chunk(pokemon, 20);
 
   const { players } = usePlayersList({ gameId });
-  const { firstOwnedEvents } = useLockoutInfo({ gameId, gen });
+  const { firstOwnedEvents, playerSeenPokemon } = useLockoutInfo({
+    gameId,
+    gen,
+  });
 
   const scores = players.map((player) => {
     const score = firstOwnedEvents.filter(
@@ -82,6 +85,7 @@ const LockoutTracker = ({
                 ownEvent={firstOwnedEvents.find(
                   (event) => event.dex === nationalDex
                 )}
+                seen={playerSeenPokemon.includes(nationalDex)}
                 key={name}
               />
             ))}
