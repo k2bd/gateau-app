@@ -1,9 +1,11 @@
 import useGateauAxios from "./useGateauAxios";
+import useUser from "./useUser";
 
 /**
  * Leave a game
  */
 const useLeaveGame = ({ gameId }: { gameId: string }) => {
+  const { user } = useUser();
   const [{ data, loading, error }, leave] = useGateauAxios(
     {
       url: `/game/${gameId}/players`,
@@ -16,7 +18,10 @@ const useLeaveGame = ({ gameId }: { gameId: string }) => {
     data,
     loading,
     error,
-    leaveGame: leave,
+    leaveGame: async () => {
+      const idToken = await user?.getIdToken();
+      return leave({ headers: { Authorization: `Bearer ${idToken}` } });
+    },
   };
 };
 

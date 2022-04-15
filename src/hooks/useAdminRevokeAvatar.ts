@@ -1,10 +1,12 @@
 import { PokemonAvatar } from "../types";
 import useGateauAxios from "./useGateauAxios";
+import useUser from "./useUser";
 
 /**
  * ADMIN ONLY - Revoke an avatar from a user
  */
 const useAdminRevokeAvatar = () => {
+  const { user } = useUser();
   const [{ data, loading, error }, revoke] = useGateauAxios(
     {
       url: `/admin/avatar`,
@@ -23,7 +25,14 @@ const useAdminRevokeAvatar = () => {
     }: {
       userId: string;
       avatar: PokemonAvatar;
-    }) => revoke({ params: { userId }, data: { avatar } }),
+    }) => {
+      const idToken = await user?.getIdToken();
+      return revoke({
+        params: { userId },
+        data: avatar,
+        headers: { Authorization: `Bearer ${idToken}` },
+      });
+    },
   };
 };
 

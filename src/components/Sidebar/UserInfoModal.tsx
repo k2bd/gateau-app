@@ -4,6 +4,7 @@ import useAvailableAvatars from "../../hooks/useAvailableAvatars";
 import usePokemonInfo from "../../hooks/usePokemonInfo";
 import useUser from "../../hooks/useUser";
 import { PokemonAvatar } from "../../types";
+import pokemonSprite from "../../util/pokemonSprite";
 import Centered from "../style/Centered";
 import { useStyletron } from "baseui";
 import { Button, SIZE } from "baseui/button";
@@ -129,9 +130,7 @@ const PokemonSpriteOption = ({
   const [{ data }] = usePokemonInfo({ num: option.nationalDex });
   const [css] = useStyletron();
 
-  const photoUrl = option.allowShiny
-    ? data?.sprites.front_shiny
-    : data?.sprites.front_default;
+  const photoUrl = pokemonSprite({ pokemon: data, shiny: option.allowShiny });
 
   const spriteButton = (
     <Button

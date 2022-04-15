@@ -1,10 +1,12 @@
 import { Player } from "../types";
 import useGateauAxios from "./useGateauAxios";
+import useUser from "./useUser";
 
 /**
  * Join a game with the local player
  */
 const useJoinGame = ({ gameId }: { gameId: string }) => {
+  const { user } = useUser();
   const [{ data, loading, error }, post] = useGateauAxios(
     {
       url: `/game/${gameId}/players`,
@@ -17,7 +19,13 @@ const useJoinGame = ({ gameId }: { gameId: string }) => {
     data,
     loading,
     error,
-    joinGame: async (player: Player) => post({ data: player }),
+    joinGame: async (player: Player) => {
+      const idToken = await user?.getIdToken();
+      return post({
+        data: player,
+        headers: { Authorization: `Bearer ${idToken}` },
+      });
+    },
   };
 };
 
