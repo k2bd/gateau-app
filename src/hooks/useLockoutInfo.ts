@@ -45,7 +45,10 @@ const useLockoutInfo = ({
 
       return { ...event, dex: pokemon.nationalDex };
     })
-    .filter((e): e is GameEvent & { dex: number } => e.player_id !== undefined);
+    .filter((e): e is GameEvent & { dex: number } => e.player_id !== undefined)
+    .sort((a, b) =>
+      b.timestamp < a.timestamp ? -1 : b.timestamp > a.timestamp ? 1 : 0
+    );
 
   const playerSeenPokemon = pokemonForGen(gen)
     .filter(

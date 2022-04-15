@@ -1,3 +1,4 @@
+import usePlayerListTags from "../hooks/usePlayerListTags";
 import { Player } from "../types";
 import { styled } from "baseui";
 import { Avatar } from "baseui/avatar";
@@ -8,8 +9,20 @@ const TagStyling = styled("div", {
   width: "100%",
 });
 
-const PlayerTag = ({ player, index }: { player: Player; index: number }) => {
+const PlayerTag = ({
+  player,
+  gameId,
+  index,
+}: {
+  player: Player;
+  gameId: string;
+  index: number;
+}) => {
+  const { getTag } = usePlayerListTags();
+  const tagContent = getTag({ gameId, playerId: player.uid });
   const borderColor = Color(player.color).lighten(0.8).hex();
+  const innerTagColor = Color(player.color).lighten(0.2).hex();
+
   return (
     <TagStyling>
       <div
@@ -27,24 +40,29 @@ const PlayerTag = ({ player, index }: { player: Player; index: number }) => {
           justifyContent: "center",
         }}
       >
-        <div style={{ width: "33%" }}>
-          <Avatar
-            name={player.name ?? `Player ${index}`}
-            src={player.photo_url ?? undefined}
-            size="scale1600"
-          />
-        </div>
-        <div style={{ width: "67%", justifyContent: "center" }}>
-          <span
-            style={{
-              whiteSpace: "nowrap",
-              textOverflow: "ellipsis",
-              overflow: "hidden",
-            }}
-          >
-            <h4>{player.name}</h4>
-          </span>
-        </div>
+        {tagContent !== undefined && (
+          <div style={{ minWidth: "20%" }}>
+            <div
+              style={{
+                borderRadius: "15px",
+                background: innerTagColor,
+                display: "flex",
+                verticalAlign: "middle",
+                alignContent: "center",
+                alignItems: "center",
+                justifyContent: "center",
+              }}
+            >
+              <h3>{tagContent}</h3>
+            </div>
+          </div>
+        )}
+        <Avatar
+          name={player.name ?? `Player ${index}`}
+          src={player.photo_url ?? undefined}
+          size="scale1200"
+        />
+        <h4>{player.name}</h4>
       </div>
     </TagStyling>
   );

@@ -12,12 +12,14 @@ const LockoutCell = ({
   gameId,
   ownEvent,
   seen,
+  cellSize,
 }: {
   name: string;
   num: number;
   gameId: string;
   ownEvent?: GameEvent;
   seen: boolean;
+  cellSize: number;
 }) => {
   const [{ data }] = usePokemonInfo({ num });
   const [css] = useStyletron();
@@ -44,7 +46,11 @@ const LockoutCell = ({
         }}
       >
         <img
-          className={css({ width: "48px", height: "48px", background })}
+          className={css({
+            width: `${cellSize}px`,
+            height: `${cellSize}px`,
+            background,
+          })}
           src={data?.sprites.front_default}
           alt={name}
         />

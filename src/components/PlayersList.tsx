@@ -2,6 +2,7 @@ import { GEN_2_POKEMON, toOwned, toSeen } from "../gameData/pokemon";
 import useAddSubscriptions from "../hooks/useAddSubscriptions";
 import useJoinGame from "../hooks/useJoinGame";
 import useLeaveGame from "../hooks/useLeaveGame";
+import usePlayerListTags from "../hooks/usePlayerListTags";
 import usePlayersList from "../hooks/usePlayersList";
 import useUser from "../hooks/useUser";
 import { Cartridge } from "../types";
@@ -122,7 +123,12 @@ const PlayersList = ({ gameId }: { gameId: string }) => {
         </ModalFooter>
       </Modal>
       {players.map((player, index) => (
-        <PlayerTag player={player} index={index} key={player.uid} />
+        <PlayerTag
+          player={player}
+          gameId={gameId}
+          index={index}
+          key={player.uid}
+        />
       ))}
       <div
         style={{
