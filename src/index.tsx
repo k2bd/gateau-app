@@ -1,4 +1,5 @@
 import AboutRoute from "./components/AboutRoute";
+import AdminRoute from "./components/AdminRoute";
 import App from "./components/App";
 import Game from "./components/Game";
 import GameSelect from "./components/GameSelect";
@@ -25,6 +26,7 @@ ReactDOM.render(
             <Route path="/" element={<App />}>
               <Route path="" element={<GameSelect />} />
               <Route path="about" element={<AboutRoute />} />
+              <Route path="admin" element={<AdminRoute />} />
               <Route path="support" element={<SupportRoute />} />
               <Route path="games" element={<GamesRoute />}>
                 <Route path="" element={<></>} />

@@ -1,16 +1,12 @@
-import { GATEAU_API_URL } from "../constants";
-import useUser from "./useUser";
-import useAxios from "axios-hooks";
+import useGateauAxios from "./useGateauAxios";
 
 /**
  * Add new subscriptions to a game
  */
 const useAddSubscriptions = ({ gameId }: { gameId: string }) => {
-  const { user } = useUser();
-  const [{ data, loading, error }, post] = useAxios(
+  const [{ data, loading, error }, post] = useGateauAxios(
     {
       url: `/game/${gameId}/subscriptions`,
-      baseURL: GATEAU_API_URL,
       method: "POST",
     },
     { manual: true, autoCancel: false }
@@ -20,13 +16,8 @@ const useAddSubscriptions = ({ gameId }: { gameId: string }) => {
     data,
     loading,
     error,
-    addSubscriptions: async (subscriptions: string[]) => {
-      const idToken = await user?.getIdToken();
-      return post({
-        data: { subscriptions },
-        headers: { Authorization: `Bearer ${idToken}` },
-      });
-    },
+    addSubscriptions: async (subscriptions: string[]) =>
+      post({ data: { subscriptions } }),
   };
 };
 

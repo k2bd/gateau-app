@@ -46,3 +46,18 @@ export interface PokemonInfo {
   name: string;
   sprites: PokeSprites;
 }
+
+export interface PokemonAvatar {
+  nationalDex: number;
+  allowShiny: boolean;
+  grantReason?: string | null;
+}
+
+export interface FirebaseUser {
+  uid: string;
+  claims?: { [key: string]: boolean } | null;
+  displayName?: string | null;
+  email?: string | null;
+  photoUrl?: string | null;
+  avatars: PokemonAvatar[];
+}
