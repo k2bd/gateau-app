@@ -1,15 +1,15 @@
-import { Player } from "../types";
+import { PokemonAvatar } from "../types";
 import useGateauAxios from "./useGateauAxios";
 import useUser from "./useUser";
 
 /**
- * Join a game with the local player
+ * ADMIN ONLY - Grant a user an avatar
  */
-const useJoinGame = ({ gameId }: { gameId: string }) => {
+const useAdminGrantAvatar = () => {
   const { user } = useUser();
   const [{ data, loading, error }, post] = useGateauAxios(
     {
-      url: `/game/${gameId}/players`,
+      url: `/admin/avatar`,
       method: "POST",
     },
     { manual: true, autoCancel: false }
@@ -19,14 +19,21 @@ const useJoinGame = ({ gameId }: { gameId: string }) => {
     data,
     loading,
     error,
-    joinGame: async (player: Player) => {
+    grantAvatar: async ({
+      userId,
+      avatar,
+    }: {
+      userId: string;
+      avatar: PokemonAvatar;
+    }) => {
       const idToken = await user?.getIdToken();
       return post({
-        data: player,
+        params: { userId },
+        data: avatar,
         headers: { Authorization: `Bearer ${idToken}` },
       });
     },
   };
 };
 
-export default useJoinGame;
+export default useAdminGrantAvatar;

@@ -1,7 +1,10 @@
 import { auth } from "../../firebaseApp";
 import * as pokemon from "../../gameData/pokemon";
+import useAvailableAvatars from "../../hooks/useAvailableAvatars";
 import usePokemonInfo from "../../hooks/usePokemonInfo";
 import useUser from "../../hooks/useUser";
+import { PokemonAvatar } from "../../types";
+import pokemonSprite from "../../util/pokemonSprite";
 import Centered from "../style/Centered";
 import { useStyletron } from "baseui";
 import { Button, SIZE } from "baseui/button";
@@ -14,14 +17,11 @@ import {
   ModalFooter,
   ModalHeader,
 } from "baseui/modal";
+import { StatefulTooltip } from "baseui/tooltip";
 import { useEffect, useState } from "react";
 import { useUpdateProfile } from "react-firebase-hooks/auth";
 
-interface SpriteOption extends pokemon.Pokemon {
-  shiny: boolean;
-}
-
-const BASE_POKEMON_SPRITE_OPTIONS: SpriteOption[] = [
+const BASE_POKEMON_SPRITE_OPTIONS: PokemonAvatar[] = [
   pokemon.BULBASAUR,
   pokemon.CHARMANDER,
   pokemon.SQUIRTLE,
@@ -114,7 +114,7 @@ const BASE_POKEMON_SPRITE_OPTIONS: SpriteOption[] = [
   pokemon.HOUNDOUR,
   pokemon.PHANPY,
   pokemon.LARVITAR,
-].map((option) => ({ ...option, shiny: false }));
+].map((option) => ({ ...option, allowShiny: false }));
 
 const PokemonSpriteOption = ({
   option,
@@ -122,7 +122,7 @@ const PokemonSpriteOption = ({
   onSelect,
   disabled,
 }: {
-  option: SpriteOption;
+  option: PokemonAvatar;
   currentSelection?: string | null;
   onSelect: (imageUrl: string) => void;
   disabled: boolean;
@@ -130,11 +130,9 @@ const PokemonSpriteOption = ({
   const [{ data }] = usePokemonInfo({ num: option.nationalDex });
   const [css] = useStyletron();
 
-  const photoUrl = option.shiny
-    ? data?.sprites.front_shiny
-    : data?.sprites.front_default;
+  const photoUrl = pokemonSprite({ pokemon: data, shiny: option.allowShiny });
 
-  return (
+  const spriteButton = (
     <Button
       onClick={() => onSelect(photoUrl ?? "")}
       disabled={!photoUrl || disabled}
@@ -149,6 +147,14 @@ const PokemonSpriteOption = ({
       />
     </Button>
   );
+
+  return option.grantReason ? (
+    <StatefulTooltip content={() => option.grantReason}>
+      {spriteButton}
+    </StatefulTooltip>
+  ) : (
+    spriteButton
+  );
 };
 
 const UserInfoModal = ({
@@ -160,6 +166,12 @@ const UserInfoModal = ({
 }) => {
   const { user } = useUser();
   const [updateProfile, updating] = useUpdateProfile(auth);
+
+  const { data: bonusAvatars } = useAvailableAvatars();
+
+  const availableAvatars = BASE_POKEMON_SPRITE_OPTIONS.concat(
+    ...(bonusAvatars ?? [])
+  );
 
   const [displayName, setDisplayName] = useState(user?.displayName);
   const [photoURL, setPhotoURL] = useState(user?.photoURL);
@@ -179,7 +191,7 @@ const UserInfoModal = ({
   const spritePicks = (
     <Centered>
       <div style={{ height: "150px", overflowY: "scroll", width: "90%" }}>
-        {BASE_POKEMON_SPRITE_OPTIONS.map((option) => (
+        {availableAvatars.map((option) => (
           <PokemonSpriteOption
             option={option}
             currentSelection={photoURL}

@@ -8,6 +8,7 @@ import { ButtonGroup } from "baseui/button-group";
 import { ChevronRight, ChevronLeft } from "baseui/icon";
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { FaHeart } from "react-icons/fa";
+import { GiSwordsPower } from "react-icons/gi";
 import { MdLogout, MdInfo, MdHome } from "react-icons/md";
 import {
   ProSidebar,
@@ -45,7 +46,7 @@ const Sidebar = ({
   collapsed: boolean;
   setCollapsed: Dispatch<SetStateAction<boolean>>;
 }) => {
-  const { user, loading, signOut } = useUser();
+  const { user, loading, signOut, isAdmin } = useUser();
   const [userInfoModalOpen, setUserInfoModalOpen] = useState(false);
 
   useEffect(() => {
@@ -126,6 +127,14 @@ const Sidebar = ({
               Support
               <Link to="/support" />
             </MenuItem>
+            {isAdmin ? (
+              <MenuItem icon={<GiSwordsPower />}>
+                Admin
+                <Link to="/admin" />
+              </MenuItem>
+            ) : (
+              <></>
+            )}
           </Menu>
         </SidebarContent>
         <SidebarFooter>{footerContent}</SidebarFooter>

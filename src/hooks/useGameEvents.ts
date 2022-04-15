@@ -9,9 +9,7 @@ const useGameEvents = ({ gameId }: { gameId: string }) => {
   const path = `/games/${gameId}/events`;
   const { value, loading, error } = useWatchDatabase<{
     [key: string]: GameEvent;
-  }>({
-    path,
-  });
+  }>({ path });
 
   const events = sortBy(
     Object.values(value ?? {}).filter(
