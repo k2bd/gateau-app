@@ -1,39 +1,28 @@
-import Centered from "../style/Centered";
-import FlexCol from "../style/FlexCol";
-import HorizontalRule from "../style/HorizontalRule";
-import EmailLogin from "./EmailLogin";
-import GoogleLogin from "./GoogleLogin";
-import { useStyletron } from "baseui";
-import { Modal, ModalHeader, ModalBody } from "baseui/modal";
+import { auth } from "../../firebaseApp";
+import { styled } from "baseui";
+import { EmailAuthProvider } from "firebase/auth";
+import { StyledFirebaseAuth } from "react-firebaseui";
 
-const LoginPopup = ({
-  isOpen,
-  onClose,
-}: {
-  isOpen: boolean;
-  onClose?: () => void;
-}) => {
-  const [, theme] = useStyletron();
+const uiConfig = {
+  signInOptions: [EmailAuthProvider.EMAIL_PASSWORD_SIGN_IN_METHOD],
+};
 
+const Centering = styled("div", {
+  display: "flex",
+  height: "100%",
+  justifyContent: "center",
+  alignItems: "center",
+  position: "absolute",
+  left: "50%",
+  top: "50%",
+  transform: "translate(-50%, -50%)",
+});
+
+const LoginPopup = () => {
   return (
-    <Modal
-      onClose={onClose}
-      isOpen={isOpen}
-      closeable={onClose !== undefined}
-      animate
-      autoFocus
-    >
-      <ModalHeader>Log In</ModalHeader>
-      <ModalBody>
-        <Centered>
-          <FlexCol>
-            <EmailLogin onClose={onClose} />
-            {false && <HorizontalRule color={theme.colors.accent500} />}
-            {false && <GoogleLogin onClose={onClose} />}
-          </FlexCol>
-        </Centered>
-      </ModalBody>
-    </Modal>
+    <Centering>
+      <StyledFirebaseAuth uiConfig={uiConfig} firebaseAuth={auth} />
+    </Centering>
   );
 };
 

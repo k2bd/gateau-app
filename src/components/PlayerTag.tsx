@@ -38,7 +38,6 @@ const PlayerTag = ({
           verticalAlign: "middle",
           alignContent: "center",
           alignItems: "center",
-          justifyContent: "center",
         }}
       >
         {tagContent !== undefined && (

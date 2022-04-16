@@ -11,7 +11,7 @@ const LoginRoute = () => {
     if (user && !loading) navigate("/");
   }, [user, loading]);
 
-  return <LoginPopup isOpen={true} />;
+  return <LoginPopup />;
 };
 
 export default LoginRoute;
