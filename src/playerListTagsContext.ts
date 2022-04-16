@@ -1,15 +1,28 @@
+import { createContext } from "react";
 import { useState } from "react";
-import useLocalStorage from "use-local-storage";
+
+type ContextType = {
+  [gameId: string]: { [playerId: string]: string | undefined } | undefined;
+};
+
+const playerListTagsContext = createContext<{
+  state: ContextType;
+  setTag: (tag: { gameId: string; playerId: string; content: string }) => void;
+  getTag: (from: { gameId: string; playerId: string }) => string | undefined;
+}>({
+  state: {},
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
+  setTag: () => {},
+  getTag: () => undefined,
+});
 
 /**
  * Control and access the content that should be displayed next to the player's
  * name in the player list on a per-game basis. For example, this might be the
  * score in a catch-em-all race.
  */
-const usePlayerListTags = () => {
-  const [tagContents, setTagContents] = useLocalStorage<{
-    [gameId: string]: { [playerId: string]: string | undefined } | undefined;
-  }>("playerTags", {});
+export const usePlayerListTags = () => {
+  const [tagContents, setTagContents] = useState<ContextType>({});
 
   const setTag = ({
     gameId,
@@ -38,7 +51,7 @@ const usePlayerListTags = () => {
     return playerData;
   };
 
-  return { getTag, setTag };
+  return { tagContents, getTag, setTag };
 };
 
-export default usePlayerListTags;
+export default playerListTagsContext;

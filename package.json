@@ -27,12 +27,10 @@
     "react-pro-sidebar": "^0.7.1",
     "react-router-dom": "^6.2.1",
     "react-scripts": "5.0.0",
-    "react-spring": "^9.4.4",
     "react-useinterval": "^1.0.2",
     "styletron-engine-atomic": "^1.4.8",
     "styletron-react": "^6.0.2",
     "typescript": "^4.4.2",
-    "use-local-storage": "^2.3.6",
     "web-vitals": "^2.1.0"
   },
   "scripts": {

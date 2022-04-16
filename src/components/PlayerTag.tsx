@@ -1,8 +1,9 @@
-import usePlayerListTags from "../hooks/usePlayerListTags";
+import playerListTagsContext from "../playerListTagsContext";
 import { Player } from "../types";
 import { styled } from "baseui";
 import { Avatar } from "baseui/avatar";
 import Color from "color";
+import { useContext } from "react";
 
 const TagStyling = styled("div", {
   display: "inline-block",
@@ -18,7 +19,7 @@ const PlayerTag = ({
   gameId: string;
   index: number;
 }) => {
-  const { getTag } = usePlayerListTags();
+  const { getTag } = useContext(playerListTagsContext);
   const tagContent = getTag({ gameId, playerId: player.uid });
   const borderColor = Color(player.color).lighten(0.8).hex();
   const innerTagColor = Color(player.color).lighten(0.2).hex();

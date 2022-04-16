@@ -2,7 +2,6 @@ import { GEN_2_POKEMON, toOwned, toSeen } from "../gameData/pokemon";
 import useAddSubscriptions from "../hooks/useAddSubscriptions";
 import useJoinGame from "../hooks/useJoinGame";
 import useLeaveGame from "../hooks/useLeaveGame";
-import usePlayerListTags from "../hooks/usePlayerListTags";
 import usePlayersList from "../hooks/usePlayersList";
 import useUser from "../hooks/useUser";
 import { Cartridge } from "../types";
@@ -110,7 +109,8 @@ const PlayersList = ({ gameId }: { gameId: string }) => {
                   photo_url: user.photoURL,
                 });
               addSubscriptions(
-                /// TODO: TEMP!! Move this to a 'start game' button
+                /// TODO: TEMP!! Move this to a 'start game' button after
+                /// selecting a gamemode etc
                 GEN_2_POKEMON.map((pokemon) => toOwned(pokemon.name)).concat(
                   GEN_2_POKEMON.map((pokemon) => toSeen(pokemon.name))
                 )
